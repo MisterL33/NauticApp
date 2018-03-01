@@ -13,7 +13,7 @@
   "dependencies": {
     "firebase": "^4.9.1",
     "react": "16.2.0",
-    "react-native": "0.53.0",
+    "react-native": "*",
     "react-native-fbsdk": "^0.7.0",
     "react-native-maps": "^0.20.1",
     "react-navigation": "^1.0.3"

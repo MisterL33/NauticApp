@@ -106,7 +106,7 @@ export default class Login extends React.Component {
                         }
                     }
                 }
-                onLogoutFinished={() => this.props.nav.navigate('Home')} />
+                onLogoutFinished={() => alert('Logged out')} />
 
 
         )

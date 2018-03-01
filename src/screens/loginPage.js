@@ -19,8 +19,7 @@ export default class LoginPage extends React.Component {
     super(props);
 
     this.state = {
-      user: null,
-      logged: null
+      user: null
     }
 
   }
@@ -28,7 +27,17 @@ export default class LoginPage extends React.Component {
 
   componentDidMount() {
 
-    //console.log(this.props)
+    AccessToken.getCurrentAccessToken().then(
+      (data) => {
+        
+        if(data){
+          this.props.navigation.navigate('Home')
+        }else{
+          console.log('Not logged')
+        }
+
+      } //Refresh it every time
+  );
   }
 
 
@@ -41,8 +50,15 @@ export default class LoginPage extends React.Component {
           source={require('../pics/home.jpg')}
           style={{ width: '100%', height: '100%' }}
         >
+        <View style={styles.titleDiv}>
+          <Text style={styles.titleText}>Nautix</Text>
+          </View>
+        
         <View style={styles.logButton}>
+
        <Login nav={this.props.navigation}  />
+       
+       
        </View>
 </ImageBackground>
        
@@ -60,5 +76,13 @@ const styles = StyleSheet.create({
     marginTop: '60%',
     marginLeft: '25%',
     
+  },
+
+  titleDiv: {
+    marginLeft: '40%'
+  },
+
+  titleText: {
+    color: 'white'
   }
 });
