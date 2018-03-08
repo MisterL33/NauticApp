@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { StackNavigator, NavigationAction } from 'react-navigation';
 const FBSDK = require('react-native-fbsdk');
 
 const {
@@ -39,7 +39,9 @@ export default class Login extends React.Component {
         
                     const user = await response.json()
                     this.setState({ user }, () => {
+
                         this.getData()
+                       
                     });
         
                 }
@@ -47,20 +49,24 @@ export default class Login extends React.Component {
                 getData = () => {
                     var userList = []
                     var recentPostsRef = firebase.database().ref('/users');
-        
                     recentPostsRef.once('value').then(snapshot => {
                         userList = snapshot.val()
                         if(userList === null) {
                             this.postData()
                         } else {
-                            const exist = Object.keys(userList).filter(user => user.facebookId === this.state.user.facebookId)
+                            const exist = Object.keys(userList).filter(user => user.facebookId === this.state.user.id)
                             if (exist.length > 0) {
-                                // ne rien faire
+                                console.log('utilisateur trouvé mamène')
+                                
+                                this.props.nav.navigate('Home', {user: this.state.user})
                             } else {
                                 this.postData() // si l'utilisateur n'existe pas en base, on appel la méthode d'insert     
+                                console.log('utilisateur inséré')
+                                this.props.nav.navigate('Home', {user: this.state.user})
                             }
         
                         }
+
         
                     })
         
@@ -100,12 +106,14 @@ export default class Login extends React.Component {
                                 const { accessToken } = data
                                 this.initUser(accessToken)
                                 this.setState({logged: true})
+                               
+                                
                             })
-                            this.props.navigation.navigate('Home')
+                            
                         }
                     }
                 }
-                onLogoutFinished={() =>this.setState({logged: false})} />
+                onLogoutFinished={() => alert('Logged out')} />
 
 
         )

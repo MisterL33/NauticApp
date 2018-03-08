@@ -138,7 +138,13 @@ android {
 }
 
 dependencies {
-   
+    compile 'com.google.android.gms:play-services-maps:+'
+    compile(project(':react-native-maps')){
+        exclude group: 'com.google.android.gms', module: 'play-services-base'
+        exclude group: 'com.google.android.gms', module: 'play-services-maps'
+    }
+    compile 'com.google.android.gms:play-services-base:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
 
     compile project(':react-native-fbsdk')
     compile fileTree(dir: "libs", include: ["*.jar"])
