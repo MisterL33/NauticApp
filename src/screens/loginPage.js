@@ -50,9 +50,17 @@ export default class LoginPage extends React.Component {
           source={require('../pics/home.jpg')}
           style={{ width: '100%', height: '100%' }}
         >
+
+
         <View style={styles.titleDiv}>
           <Text style={styles.titleText}>Nautix</Text>
+
           </View>
+
+          <View style={styles.imageDiv}>
+            
+          <Image source={require('../pics/vague-02.png')} style={{ width: '60%', height: '55%' }} />
+            </View>
         
         <View style={styles.logButton}>
 
@@ -73,7 +81,7 @@ const styles = StyleSheet.create({
 
 
   logButton: {
-    marginTop: '60%',
+   
     marginLeft: '25%',
     
   },
@@ -84,5 +92,14 @@ const styles = StyleSheet.create({
 
   titleText: {
     color: 'white'
+  },
+
+  imageDiv:{
+    width: '60%',
+    height: '60%',
+    marginLeft: '30%',
+    marginTop: '30%'
+
   }
+
 });
