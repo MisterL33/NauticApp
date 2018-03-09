@@ -6,6 +6,12 @@ import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
 import windsurfIcon from './pics/windsurf.png'
 import kitesurfIcon from './pics/kitesurf.png'
+import myWindsurfIcon from './pics/windsurfme.png';
+import myKitesurfIcon from './pics/kitesurfme.png';
+import Session from './components/session';
+import Geocoder from 'react-native-geocoder';
+
+
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
@@ -13,6 +19,7 @@ const {
     AccessToken
 } = FBSDK;
 import * as firebase from "firebase";
+
 
 
 
@@ -65,6 +72,11 @@ export default class Map extends React.Component {
             address: 'Sanguinet',
             equipement: 'wind',
             markers: [
+                {
+
+                }
+            ],
+            otherMarkers: [
                 {
 
                 }
@@ -136,18 +148,23 @@ export default class Map extends React.Component {
                     });
 
 
-                    this.setState({ markers: markerList }, () => {
-                        //console.log('markerList')
-                        //  console.log(this.state.markers)
-                    })
+                    this.setState({ markers: markerList })
+                }
+                else {
+
+                    var otherMarkers = userFormated.markers
+                    Object.keys(otherMarkers).map((key) => {
+                        let marker = otherMarkers[key]
+                        markerList.push(marker)
+
+                    });
+                    this.setState({ otherMarkers: markerList })
                 }
 
+
+
             })
-
-
-
         })
-
 
     }
 
@@ -182,6 +199,25 @@ export default class Map extends React.Component {
 
         // console.log(this.props.navigation.state.params)
         const today = new Date()
+ 
+        var position = {
+            lat: e.nativeEvent.coordinate.latitude,
+            lng: e.nativeEvent.coordinate.longitude
+        }
+
+
+        Geocoder.geocodePosition(position).then(res => {
+           res.map(geoObject => {
+            if(geoObject.locality !== null){
+                this.setState({locality: geoObject.locality})
+            }
+           })
+        })
+            .catch(err => console.log(err))
+
+
+
+
         const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + '0' + today.getDate();
 
         this.setState({ latitudeMarker: e.nativeEvent.coordinate.latitude, longitudeMarker: e.nativeEvent.coordinate.longitude, dateCreationMarker: currentDate })
@@ -207,7 +243,9 @@ export default class Map extends React.Component {
                 'dateSessionMarker': this.state.dateSessionMarker,
                 'hourSessionFrom': this.state.hourSessionFrom,
                 'hourSessionTo': this.state.hourSessionTo,
-                'equipement': this.state.equipement
+                'equipement': this.state.equipement,
+                'userId': this.state.user.id,
+                'locality': this.state.locality
             })
 
         this.setState({ markers: marker })
@@ -218,7 +256,7 @@ export default class Map extends React.Component {
 
                 var userFormated = user.val();
                 if (userFormated.facebookId === this.state.user.id) {
-                        console.log('utilisateur trouvé mamène')
+                    console.log('utilisateur trouvé mamène')
 
                     var newChild = user.ref.child('markers')
                     var markerFormated = {  // creation d'un marker pour l'user actuel
@@ -229,14 +267,16 @@ export default class Map extends React.Component {
                         'dateSessionMarker': this.state.dateSessionMarker,
                         'hourSessionFrom': this.state.hourSessionFrom,
                         'hourSessionTo': this.state.hourSessionTo,
-                        'equipement': this.state.equipement
+                        'equipement': this.state.equipement,
+                        'userId': this.state.user.id,
+                        'locality': this.state.locality
 
                     }
 
                     newChild.push(({ marker: markerFormated }))
                     this.GetUserMarkers(userFormated.facebookId)
                 } else {
-                       console.log('utilisateur non trouvé')
+                    console.log('utilisateur non trouvé')
                 }
 
             })
@@ -278,23 +318,43 @@ export default class Map extends React.Component {
                     >
 
                         {this.state.markers.map((marker, i) => (
-                            marker.marker !== undefined && marker.marker.equipement === 'wind' ?
-                            <MapView.Marker
-                                image={windsurfIcon}
-                                coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
-                                title={marker.marker.titleMarker}
-                                description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
-                                key={i} />
-                            : marker.marker !== undefined && marker.marker.equipement === 'kite' &&
-                            <MapView.Marker
-                            image={kitesurfIcon}
-                            coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
-                            title={marker.marker.titleMarker}
-                            description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
-                            key={i}
-                            
-                            
-                        />
+                            marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId === this.state.user.id ?
+                                <MapView.Marker
+                                    image={myWindsurfIcon}
+                                    coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
+                                    title={marker.marker.titleMarker}
+                                    description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
+                                    key={i} />
+                                : marker.marker !== undefined && marker.marker.equipement === 'kite' && marker.marker.userId === this.state.user.id &&
+                                <MapView.Marker
+                                    image={myKitesurfIcon}
+                                    coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
+                                    title={marker.marker.titleMarker}
+                                    description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
+                                    key={i}
+
+
+                                />
+                        ))}
+
+                        {this.state.markers.map((marker, i) => (
+                            marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId !== this.state.user.id ?
+                                <MapView.Marker
+                                    image={windsurfIcon}
+                                    coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
+                                    title={marker.marker.titleMarker}
+                                    description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
+                                    key={i} />
+                                : marker.marker !== undefined && marker.marker.equipement === 'kite' && marker.marker.userId !== this.state.user.id &&
+                                <MapView.Marker
+                                    image={kitesurfIcon}
+                                    coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
+                                    title={marker.marker.titleMarker}
+                                    description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
+                                    key={i}
+
+
+                                />
                         ))}
                     </MapView>
 
@@ -319,7 +379,7 @@ export default class Map extends React.Component {
                         <TextInput onChangeText={(titleMarker) => this.setState({ titleMarker })} value={this.state.titleMarker} />
                         <Text>Equipement pour la session </Text>
                         <Picker
-                        style={{width: 200}}
+                            style={{ width: 200 }}
                             selectedValue={this.state.equipement}
                             onValueChange={(itemValue, itemIndex) => this.setState({ equipement: itemValue }, () => console.log(this.state.equipement))}>
                             <Picker.Item label="Windsurf" value="wind" />
