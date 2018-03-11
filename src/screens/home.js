@@ -116,19 +116,21 @@ export default class Home extends React.Component {
 
 
   GetUserMarkers = (userId) => {
-
+    
+  
     var userList = []
     var markerList = []
     var recentPostsRef = firebase.database().ref('/users');
     recentPostsRef.once('value').then(snapshot => {
 
-      userList = snapshot.val()
-
+  
+      
       snapshot.forEach(user => {
         var userFormated = user.val();
-
-        if (userFormated.facebookId === userId) 
+     
+        if (userFormated.facebookId === userId && userFormated.markers) 
         {
+          console.log('avant mamene' + ' ' +userFormated.facebookId)
           console.log('utilisateur trouvé mamène')
           var markers = userFormated.markers
           Object.keys(markers).map((key) => {
@@ -139,9 +141,10 @@ export default class Home extends React.Component {
           this.setState({ markers: markerList })
         }
 
-        else 
+        
+        if(userFormated.facebookId !== userId && userFormated.markers)
         {
-
+     
           var otherMarkers = userFormated.markers
           Object.keys(otherMarkers).map((key) => {
             let marker = otherMarkers[key]
@@ -150,6 +153,7 @@ export default class Home extends React.Component {
           });
           this.setState({ otherMarkers: markerList })
         }
+
       })
     })
 
@@ -183,7 +187,13 @@ export default class Home extends React.Component {
 
     // console.log(this.props.navigation.state.params)
     const today = new Date()
-
+    let day = today.getDate().toString()
+    
+            
+            if(day.length !== 2){
+                day = '0' + day
+            }
+    
     var position = {
       lat: e.nativeEvent.coordinate.latitude,
       lng: e.nativeEvent.coordinate.longitude
@@ -199,8 +209,7 @@ export default class Home extends React.Component {
     })
       .catch(err => console.log(err))
 
-    const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + '0' + today.getDate();
-
+      const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
     this.setState({
       markerInfo: { // mise en state d'un nouvel objet markerInfo pour qu'il soit passé en props dans le child session
         latitudeMarker: e.nativeEvent.coordinate.latitude,
@@ -265,8 +274,7 @@ this.setModalVisible(true)
           }
 
 
-          <Button title='Classement' onPress={() => this.props.nav.navigate('Ranking')} />
-
+         
 
         </View>
       </View>

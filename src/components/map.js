@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         height: '30%',
         alignItems: undefined,
         justifyContent: undefined,
-
+        
     }
 });
 
@@ -47,6 +47,28 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            currentDate: new Date(),
+        }
+
+    }
+
+
+    componentDidMount(){
+        const today = this.state.currentDate
+        let day = today.getDate().toString()
+
+        
+        if(day.length !== 2){
+            day = '0' + day
+        }
+
+      
+       
+        const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
+
+
+        this.setState({currentDate: currentDate})
     }
 
 
@@ -55,7 +77,9 @@ export default class Map extends React.Component {
 
     render() {
         console.log('render map')
-
+        if(this.state.currentDate){
+         
+        
         return (
             <MapView
                 style={styles.map}
@@ -72,7 +96,7 @@ export default class Map extends React.Component {
             >
 
                 {this.props.markers.map((marker, i) => (
-                    marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId === this.props.user.id ?
+                    marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId === this.props.user.id && marker.marker.dateSessionMarker === this.state.currentDate ?
                         <MapView.Marker
                             image={myWindsurfIcon}
                             coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
@@ -91,8 +115,8 @@ export default class Map extends React.Component {
                         />
                 ))}
 
-                {this.props.markers.map((marker, i) => (
-                    marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId !== this.props.user.id ?
+                {this.props.otherMarkers.map((marker, i) => (
+                    marker.marker !== undefined && marker.marker.equipement === 'wind' && marker.marker.userId !== this.props.user.id && marker.marker.dateSessionMarker === this.state.currentDate ?
                         <MapView.Marker
                             image={windsurfIcon}
                             coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}
@@ -113,6 +137,7 @@ export default class Map extends React.Component {
             </MapView>
           
         )
+    }
     }
 
 }
