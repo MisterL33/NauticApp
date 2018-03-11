@@ -6,12 +6,11 @@ git clone https://github.com/MisterL33/NauticApp.git
 
 npm install
 
-Ouvrir avec Android Studio le fichier build.gradle situ� dans le dossier android
+Installer genymotion
 
-Une fois le build fini, cliquez sur l'icone AVD Manager et cr�er si besoin une machine virtuelle marshmellow (android 6.0, API 23)
+Ouvrir genymotion et créer un nouveau terminal virtual avec ces caractéristiques : API 23 - android 6.0.0 (J'utilise le terminal Google Nexus 5X - 6.0.0 - API 23)
 
-Lancez la machine virtuelle
+Une fois le terminal créer, démarrer le puis lancer la commande react-native run-android à la racine du dossier du projet, react-native va automatiquement détecter qu'un terminal virtuel
+est lancé et lancera le projet dessus.
 
-Nous pouvons maintenant lancer l'application via : react-native run-android � la racine du dossier
-
-Ouvrir menu DEV : ctrl + M(sur l'application)
+P.S : Ouvrir menu DEV : ctrl + M(sur l'application)
