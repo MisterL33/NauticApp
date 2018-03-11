@@ -22,7 +22,7 @@ firebase.initializeApp({
     
     });
 
-import Home from './screens/home';
+import Home from '../screens/home';
 
 export default class Login extends React.Component {
 
@@ -55,9 +55,15 @@ export default class Login extends React.Component {
                         if(userList === null) {
                             this.postData()
                         } else {
-                            const exist = Object.keys(userList).filter(user => user.facebookId === this.state.user.id)
-                            if (exist.length > 0) {
-                                console.log('utilisateur trouvé mamène')
+
+                            snapshot.forEach(user => {
+                                var userFormated = user.val();
+                                console.log(userFormated)
+
+                                if(userFormated.facebookId === this.state.user.id){
+
+
+                                console.log('utilisateur trouvé')
                                 
                                 this.props.nav.navigate('Home', {user: this.state.user})
                             } else {
@@ -65,6 +71,7 @@ export default class Login extends React.Component {
                                 console.log('utilisateur inséré')
                                 this.props.nav.navigate('Home', {user: this.state.user})
                             }
+                            })
         
                         }
 

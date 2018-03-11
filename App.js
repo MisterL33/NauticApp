@@ -16,7 +16,7 @@ import {  Platform,  StyleSheet,  Text,  View} from 'react-native';
 
 import { StackNavigator, NavigationAction } from 'react-navigation';
 
-import RootStack from './src/router';
+import RootStack from './src/config/router';
 
 
 
