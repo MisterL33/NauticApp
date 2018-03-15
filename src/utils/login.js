@@ -22,7 +22,7 @@ firebase.initializeApp({
     
     });
 
-import Home from './screens/home';
+import Home from '../screens/home';
 
 export default class Login extends React.Component {
 
@@ -39,32 +39,40 @@ export default class Login extends React.Component {
         
                     const user = await response.json()
                     this.setState({ user }, () => {
-
-                        this.getData()
+                      
+                        this.getData(this.state.user)
                        
                     });
         
                 }
         
-                getData = () => {
+                getData = (actualUser) => {
                     var userList = []
                     var recentPostsRef = firebase.database().ref('/users');
+                    var exist = false;
                     recentPostsRef.once('value').then(snapshot => {
                         userList = snapshot.val()
                         if(userList === null) {
                             this.postData()
                         } else {
-                            const exist = Object.keys(userList).filter(user => user.facebookId === this.state.user.id)
-                            if (exist.length > 0) {
-                                console.log('utilisateur trouvé mamène')
+
+                            snapshot.forEach(user => {
+                                var userFormated = user.val();
+
+                                if(userFormated.facebookId === actualUser.id){
+
+
+                                console.log('utilisateur trouvé')
+                                exist = true
+                                this.props.nav.navigate('Home', {user: actualUser})
                                 
-                                this.props.nav.navigate('Home', {user: this.state.user})
-                            } else {
+                            } 
+                            })
+                            if(exist === false) {
                                 this.postData() // si l'utilisateur n'existe pas en base, on appel la méthode d'insert     
                                 console.log('utilisateur inséré')
-                                this.props.nav.navigate('Home', {user: this.state.user})
+                                this.props.nav.navigate('Home', {user: actualUser})
                             }
-        
                         }
 
         

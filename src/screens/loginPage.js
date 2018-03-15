@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Button, Image, ImageBackground } from 'react-native';
-import Login from '../login';
+import Login from '../utils/login';
 import { StackNavigator, NavigationAction } from 'react-navigation';
 const FBSDK = require('react-native-fbsdk');
 
@@ -27,16 +27,16 @@ export default class LoginPage extends React.Component {
 
   componentDidMount() {
 
-    AccessToken.getCurrentAccessToken().then(
+    AccessToken.getCurrentAccessToken().then( // Récupération de l'user via le token donné par facebook lors du login
       (data) => {
         
         if(data){
-          this.props.navigation.navigate('Home')
+          this.props.navigation.navigate('Home') // si on a un token et donc des données, redirection vers la home
         }else{
           console.log('Not logged')
         }
 
-      } //Refresh it every time
+      } 
   );
   }
 
