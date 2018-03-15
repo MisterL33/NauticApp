@@ -12,6 +12,7 @@ import Session from '../components/session';
 import Geocoder from 'react-native-geocoder';
 import Ranking from '../components/ranking';
 import Map from '../components/map';
+import styles from '../styles/home.style';
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
@@ -19,37 +20,6 @@ const {
   AccessToken
 } = FBSDK;
 import * as firebase from "firebase";
-
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 420,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: '20%',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  modal: {
-    position: 'absolute',
-    backgroundColor: 'white',
-    margin: '15',
-    width: '30%',
-    height: '30%',
-    alignItems: undefined,
-    justifyContent: undefined,
-
-  }
-});
-
-
-
-
 
 
 
@@ -85,21 +55,14 @@ export default class Home extends React.Component {
 
   componentWillMount = () => {
 
-    if (this.props.navigation.state.params) {
-
-      this.setState({ user: this.props.navigation.state.params }, () => {
-        //  console.log('navigation')
-        //   console.log(this.state.user)
-      })
-    }
-    else {
+   
       AccessToken.getCurrentAccessToken().then((data) => {
         const { accessToken } = data
         this.RetrieveUserByActualToken(accessToken)
 
       })
     }
-  }
+  
 
 
 
@@ -108,6 +71,7 @@ export default class Home extends React.Component {
     const response = await fetch('https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' + token)
     const user = await response.json()
     const userId = user.id
+    console.log('retrieve', userId)
     this.setState({ user })
     this.GetUserMarkers(userId)
   }
@@ -123,15 +87,13 @@ export default class Home extends React.Component {
     var recentPostsRef = firebase.database().ref('/users');
     recentPostsRef.once('value').then(snapshot => {
 
-  
       
       snapshot.forEach(user => {
         var userFormated = user.val();
      
         if (userFormated.facebookId === userId && userFormated.markers) 
         {
-          console.log('avant mamene' + ' ' +userFormated.facebookId)
-          console.log('utilisateur trouvé mamène')
+          
           var markers = userFormated.markers
           Object.keys(markers).map((key) => {
             let marker = markers[key]
@@ -185,11 +147,12 @@ export default class Home extends React.Component {
 
   mapPress = (e) => {
 
-    // console.log(this.props.navigation.state.params)
     const today = new Date()
     let day = today.getDate().toString()
-    
-            
+    let photoRef= null
+    let placeObject = null
+    let photoUrl = null
+  //  console.log(e.nativeEvent)
             if(day.length !== 2){
                 day = '0' + day
             }
@@ -202,8 +165,11 @@ export default class Home extends React.Component {
 
     Geocoder.geocodePosition(position).then(res => {
       res.map(geoObject => {
+     
         if (geoObject.locality !== null) {
           this.setState({ locality: geoObject.locality })
+         
+          
         }
       })
     })
@@ -214,11 +180,9 @@ export default class Home extends React.Component {
       markerInfo: { // mise en state d'un nouvel objet markerInfo pour qu'il soit passé en props dans le child session
         latitudeMarker: e.nativeEvent.coordinate.latitude,
         longitudeMarker: e.nativeEvent.coordinate.longitude,
-        dateCreationMarker: currentDate
+        dateCreationMarker: currentDate,
+        
       }
-    }, () => {
-      console.log('dans le mapPress')
-      console.log(this.state.markerInfo)
     })
 
 this.setModalVisible(true)
@@ -245,7 +209,7 @@ this.setModalVisible(true)
   
 
   render() {
-    console.log('render')
+ 
 
 
     if (this.state.user !== undefined) {
@@ -273,9 +237,9 @@ this.setModalVisible(true)
             : <Text>Nautix</Text>
           }
 
-
-         
-
+<View style={{position: 'relative', top: '15%'}}>
+         <Button title='Classement' onPress={() =>  this.props.navigation.navigate('Ranking', {state: this.state}) } />
+</View>
         </View>
       </View>
     );

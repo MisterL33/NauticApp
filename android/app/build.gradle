@@ -151,6 +151,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:26.1.0"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-geocoder')
+    compile project(':react-native-fetch-blob')
     
 }
 

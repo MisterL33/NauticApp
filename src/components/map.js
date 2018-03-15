@@ -8,7 +8,7 @@ import windsurfIcon from '../pics/windsurf.png'
 import kitesurfIcon from '../pics/kitesurf.png'
 import myWindsurfIcon from '../pics/windsurfme.png';
 import myKitesurfIcon from '../pics/kitesurfme.png';
-
+import styles from '../styles/map.style';
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
@@ -18,29 +18,6 @@ const {
 import * as firebase from "firebase";
 
 
-const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        height: 400,
-        width: 420,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: '20%',
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    modal: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        margin: '15',
-        width: '30%',
-        height: '30%',
-        alignItems: undefined,
-        justifyContent: undefined,
-        
-    }
-});
 
 
 export default class Map extends React.Component {
@@ -55,6 +32,7 @@ export default class Map extends React.Component {
 
 
     componentDidMount(){
+        
         const today = this.state.currentDate
         let day = today.getDate().toString()
 
@@ -76,7 +54,7 @@ export default class Map extends React.Component {
 
 
     render() {
-        console.log('render map')
+
         if(this.state.currentDate){
          
         
