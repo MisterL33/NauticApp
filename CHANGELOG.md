@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/MisterL33/NauticApp/compare/v0.1.0...v0.2.0) (2018-03-15)
+
+
+### Bug Fixes
+
+* allMarkers bug et affichage marker du jour uniquement ([1fa6abd](https://github.com/MisterL33/NauticApp/commit/1fa6abd))
+* grosse refactorisation du projet ([bba2828](https://github.com/MisterL33/NauticApp/commit/bba2828))
+* merge develop in master ([30c2d5e](https://github.com/MisterL33/NauticApp/commit/30c2d5e))
+* readme changes ([508d49a](https://github.com/MisterL33/NauticApp/commit/508d49a))
+* readme changesv2 ([5ae453c](https://github.com/MisterL33/NauticApp/commit/5ae453c))
+
+
+### Features
+
+* afficher tous les markers avec couleurs et reverse geocoding ([b240e93](https://github.com/MisterL33/NauticApp/commit/b240e93))
+* rankings and minor changes ([224b04e](https://github.com/MisterL33/NauticApp/commit/224b04e))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/MisterL33/NauticApp/compare/v0.0.1...v0.1.0) (2018-03-08)
 
