@@ -46,7 +46,7 @@ export default class Home extends React.Component {
       },
       markers: [{}],
       otherMarkers: [{}],
- 
+
 
     };
   }
@@ -55,14 +55,14 @@ export default class Home extends React.Component {
 
   componentWillMount = () => {
 
-   
-      AccessToken.getCurrentAccessToken().then((data) => {
-        const { accessToken } = data
-        this.RetrieveUserByActualToken(accessToken)
 
-      })
-    }
-  
+    AccessToken.getCurrentAccessToken().then((data) => {
+      const { accessToken } = data
+      this.RetrieveUserByActualToken(accessToken)
+
+    })
+  }
+
 
 
 
@@ -80,20 +80,19 @@ export default class Home extends React.Component {
 
 
   GetUserMarkers = (userId) => {
-    
-  
+
+
     var userList = []
     var markerList = []
     var recentPostsRef = firebase.database().ref('/users');
     recentPostsRef.once('value').then(snapshot => {
 
-      
+
       snapshot.forEach(user => {
         var userFormated = user.val();
-     
-        if (userFormated.facebookId === userId && userFormated.markers) 
-        {
-          
+
+        if (userFormated.facebookId === userId && userFormated.markers) {
+
           var markers = userFormated.markers
           Object.keys(markers).map((key) => {
             let marker = markers[key]
@@ -103,10 +102,9 @@ export default class Home extends React.Component {
           this.setState({ markers: markerList })
         }
 
-        
-        if(userFormated.facebookId !== userId && userFormated.markers)
-        {
-     
+
+        if (userFormated.facebookId !== userId && userFormated.markers) {
+
           var otherMarkers = userFormated.markers
           Object.keys(otherMarkers).map((key) => {
             let marker = otherMarkers[key]
@@ -121,8 +119,7 @@ export default class Home extends React.Component {
 
   }
 
-  setModalVisible(visible) 
-  {
+  setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
@@ -149,14 +146,14 @@ export default class Home extends React.Component {
 
     const today = new Date()
     let day = today.getDate().toString()
-    let photoRef= null
+    let photoRef = null
     let placeObject = null
     let photoUrl = null
-  //  console.log(e.nativeEvent)
-            if(day.length !== 2){
-                day = '0' + day
-            }
-    
+    //  console.log(e.nativeEvent)
+    if (day.length !== 2) {
+      day = '0' + day
+    }
+
     var position = {
       lat: e.nativeEvent.coordinate.latitude,
       lng: e.nativeEvent.coordinate.longitude
@@ -165,27 +162,27 @@ export default class Home extends React.Component {
 
     Geocoder.geocodePosition(position).then(res => {
       res.map(geoObject => {
-     
+
         if (geoObject.locality !== null) {
           this.setState({ locality: geoObject.locality })
-         
-          
+
+
         }
       })
     })
       .catch(err => console.log(err))
 
-      const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
+    const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
     this.setState({
       markerInfo: { // mise en state d'un nouvel objet markerInfo pour qu'il soit passé en props dans le child session
         latitudeMarker: e.nativeEvent.coordinate.latitude,
         longitudeMarker: e.nativeEvent.coordinate.longitude,
         dateCreationMarker: currentDate,
-        
+
       }
     })
 
-this.setModalVisible(true)
+    this.setModalVisible(true)
 
   }
 
@@ -206,10 +203,10 @@ this.setModalVisible(true)
 
 
 
-  
+
 
   render() {
- 
+
 
 
     if (this.state.user !== undefined) {
@@ -223,10 +220,10 @@ this.setModalVisible(true)
         <View style={styles.container}>
 
 
-        {this.state.user !== undefined && this.state.markers &&
-          <Map {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
-            mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)} />
-        }
+          {this.state.user !== undefined && this.state.markers &&
+            <Map {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
+              mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)} />
+          }
 
           {this.state.user !== undefined && this.state.markerInfo && this.state.locality
             ? <Session {...this.state} user={this.state.user} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
@@ -237,9 +234,9 @@ this.setModalVisible(true)
             : <Text>Nautix</Text>
           }
 
-<View style={{position: 'relative', top: '15%'}}>
-         <Button title='Classement' onPress={() =>  this.props.navigation.navigate('Ranking', {state: this.state}) } />
-</View>
+          <View style={{ position: 'relative', top: '15%' }}>
+            <Button title='Classement' onPress={() => this.props.navigation.navigate('Ranking', { state: this.state })} />
+          </View>
         </View>
       </View>
     );

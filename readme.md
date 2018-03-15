@@ -1,5 +1,7 @@
 NauticApp Native
 
+Trello : https://trello.com/b/kNOgI2eb/nautixapp
+
 Configuration : 
 
 git clone https://github.com/MisterL33/NauticApp.git
