@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Modal, Platform, StyleSheet, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
+import { Modal, Platform, StyleSheet, Dimensions, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
@@ -22,7 +22,7 @@ const {
 import * as firebase from "firebase";
 
 
-
+const {height: screenHeight, width: screenWidth} = Dimensions.get('window')
 
 
 export default class Home extends React.Component {
@@ -206,7 +206,7 @@ this.setModalVisible(true)
 
 
 
-  
+  // mettre les boutons search et classement sur le fichier map pour que la map soit le parent des boutons
 
   render() {
  
@@ -217,14 +217,14 @@ this.setModalVisible(true)
     }
 
     return (
-      <View>
-        <TextInput onChangeText={(address) => this.setState({ address })} value={this.state.address} />
-        <Button title='Voir' onPress={this.handleConfirmSearch} />
+      <View style={StyleSheet.absoluteFill}>
+
+        
         <View style={styles.container}>
 
 
         {this.state.user !== undefined && this.state.markers &&
-          <Map {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
+          <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
             mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)} />
         }
 
@@ -237,9 +237,7 @@ this.setModalVisible(true)
             : <Text>Nautix</Text>
           }
 
-<View style={{position: 'relative', top: '15%'}}>
-         <Button title='Classement' onPress={() =>  this.props.navigation.navigate('Ranking', {state: this.state}) } />
-</View>
+
         </View>
       </View>
     );
