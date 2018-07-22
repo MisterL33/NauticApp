@@ -11,31 +11,31 @@
     "release": "standard-version"
   },
   "dependencies": {
-    "firebase": "^4.9.1",
+    "firebase": "*",
     "react": "16.2.0",
     "react-native": "*",
-    "react-native-carousel-view": "^0.5.1",
-    "react-native-datepicker": "^1.6.0",
-    "react-native-fbsdk": "^0.7.0",
-    "react-native-fetch-blob": "^0.10.8",
-    "react-native-file-download": "0.0.10",
-    "react-native-geocoder": "^0.5.0",
-    "react-native-maps": "^0.20.1",
-    "react-native-modal": "^5.2.0",
-    "react-native-modal-overlay": "^1.2.3",
-    "react-navigation": "^1.0.3"
+    "react-native-carousel-view": "*",
+    "react-native-datepicker": "*",
+    "react-native-fbsdk": "*",
+    "react-native-fetch-blob": "*",
+    "react-native-file-download": "*",
+    "react-native-geocoder": "*",
+    "react-native-maps": "*",
+    "react-native-modal": "*",
+    "react-native-modal-overlay": "*",
+    "react-navigation": "*"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.0",
-    "@commitlint/config-conventional": "^6.1.0",
-    "@commitlint/prompt": "^6.1.0",
-    "babel-jest": "22.2.0",
-    "babel-preset-react-native": "4.0.0",
-    "commitizen": "^2.9.6",
-    "husky": "^0.14.3",
-    "jest": "22.2.1",
-    "react-test-renderer": "16.2.0",
-    "standard-version": "^4.3.0"
+    "@commitlint/cli": "*",
+    "@commitlint/config-conventional": "*",
+    "@commitlint/prompt": "*",
+    "babel-jest": "*",
+    "babel-preset-react-native": "*",
+    "commitizen": "*",
+    "husky": "*",
+    "jest": "*",
+    "react-test-renderer": "*",
+    "standard-version": "*"
   },
   "jest": {
     "preset": "react-native"
