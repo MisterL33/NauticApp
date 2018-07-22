@@ -1,17 +1,21 @@
-import { StyleSheet } from 'react-native';  
+import { Dimensions, StyleSheet } from 'react-native'
+
+
 
 
 export default StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        height: 400,
-        width: 420,
-        justifyContent: 'flex-end',
+
         alignItems: 'center',
-        marginTop: '20%',
-    },
+        
+      },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
+        position:'absolute'
     },
     modal: {
         position: 'absolute',
