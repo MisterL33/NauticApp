@@ -23,6 +23,8 @@
     "react-native-maps": "*",
     "react-native-modal": "*",
     "react-native-modal-overlay": "*",
+    "react-native-textinput-effects": "^0.4.2",
+    "react-native-vector-icons": "^4.6.0",
     "react-navigation": "*"
   },
   "devDependencies": {

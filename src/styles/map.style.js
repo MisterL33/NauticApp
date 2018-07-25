@@ -7,15 +7,14 @@ export default StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
 
-        alignItems: 'center',
-        
-      },
+
+    },
     map: {
         left: 0,
         right: 0,
         bottom: 0,
         top: 0,
-        position:'absolute'
+        position: 'absolute'
     },
     modal: {
         position: 'absolute',
@@ -25,6 +24,69 @@ export default StyleSheet.create({
         height: '30%',
         alignItems: undefined,
         justifyContent: undefined,
+
+    },
+    button: {
+
+        backgroundColor: '#66ccff',
+        height: 50,  
+        width: '100%',
+
         
+    },
+
+    buttonDate: {
+        
+        backgroundColor: '#66ccff',
+        height: 50,  
+        width: '100%',
+        borderRadius: 10
+
+        
+    },
+    inputContainer: {
+        borderLeftWidth: 2,
+        borderLeftColor: '#66ccff',
+        borderBottomWidth: 2,
+        borderBottomColor: '#66ccff',
+        borderRightColor: '#66ccff',
+        borderTopWidth: 2,
+        borderTopColor: '#66ccff',
+        backgroundColor: 'rgba(255,255,255, 0.9)',
+        marginTop: '1%',
+        marginLeft: '1%',
+        borderRadius: 10,
+        zIndex: 10,
+        borderRightWidth: 2,
+        height: 60
+    },
+    searchBar: {
+        marginLeft: '3%',
+        marginBottom: '5%',
+        color: 'white',
+        width: 300,
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+    Go: {
+        color: 'white',
+        marginTop: '4%',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: '20%'
+    },
+    dateChange: {
+        color: 'white',
+        marginTop: '4%',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: '10%',
+        
+    },
+
+    searchTitle: {
+        textDecorationLine: 'underline',
+        textAlign: 'center',
+        color:'#66ccff'
     }
 });

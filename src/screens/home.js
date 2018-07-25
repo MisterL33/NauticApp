@@ -39,7 +39,7 @@ export default class Home extends React.Component {
       latitudeMarker: null,
       hourSessionFrom: '08:30',
       hourSessionTo: '12:30',
-      address: 'Sanguinet',
+      address: '',
       equipement: 'wind',
       user: {
 
@@ -121,28 +121,16 @@ export default class Home extends React.Component {
 
   }
 
+  // Fonctions permettant de set le state depuis un enfant
   setModalVisible(visible) 
   {
     this.setState({ modalVisible: visible });
   }
 
 
-  handleConfirmSearch = () => {
 
-    fetch('https://maps.google.com/maps/api/geocode/json?address=' + this.state.address + '&key=AIzaSyBETNe1QHYEoXhx3-lhQWICKWm97syaOcA').then(
-      (res) => this.setState({ object: JSON.parse(res._bodyText) }, () => {
 
-        var object = this.state.object.results
-        var results = []
-        object.map((result) => results.push(result))   // ici on met toutes les locations trouvées, ce serait bien de les afficher pour choisir
-        this.setState({ latitude: results[0].geometry.location.lat })
-        this.setState({ longitude: results[0].geometry.location.lng })
-      }
-      ));
 
-    this.setModalVisible(false)
-
-  }
 
 
   mapPress = (e) => {
@@ -204,6 +192,20 @@ this.setModalVisible(true)
     this.setModalVisible(false)
   }
 
+  handleSetLatitude = (latitude) => {
+    this.setState({ latitude : latitude}, () =>{
+      console.log(this.state.latitude)
+    });
+    
+  }
+
+  handleSetLongitude = (longitude) => {
+    this.setState({ longitude : longitude}, () =>{
+      console.log(this.state.longitude)
+    });
+    
+  }
+
 
 
   // mettre les boutons search et classement sur le fichier map pour que la map soit le parent des boutons
@@ -225,7 +227,9 @@ this.setModalVisible(true)
 
         {this.state.user !== undefined && this.state.markers &&
           <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
-            mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)} />
+            mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
+            handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
+              />
         }
 
           {this.state.user !== undefined && this.state.markerInfo && this.state.locality
@@ -234,7 +238,7 @@ this.setModalVisible(true)
               handleZoomOnMarker={this.handleZoomOnMarker.bind(this)}
               handleModalVisible={this.setModalVisible.bind(this)}
             />
-            : <Text>Nautix</Text>
+            : <Text></Text>
           }
 
 
