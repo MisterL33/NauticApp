@@ -5,6 +5,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -16,6 +17,7 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.devfd.RNGeocoder.RNGeocoderPackage;
 import java.util.Arrays;
 import java.util.List;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -34,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFetchBlobPackage(),
+          new RNGoogleSigninPackage(),
+          new RNFetchBlobPackage(),
           new FBSDKPackage(mCallbackManager),
           new MapsPackage(),
           new RNGeocoderPackage()

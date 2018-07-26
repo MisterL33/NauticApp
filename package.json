@@ -8,9 +8,11 @@
     "commit": "git-cz",
     "commit:retry": "git-cz --retry",
     "commitmsg": "commitlint -e",
-    "release": "standard-version"
+    "release": "standard-version",
+    "device": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android"
   },
   "dependencies": {
+    "expo": "^28.0.0",
     "firebase": "*",
     "react": "16.2.0",
     "react-native": "*",
@@ -20,6 +22,7 @@
     "react-native-fetch-blob": "*",
     "react-native-file-download": "*",
     "react-native-geocoder": "*",
+    "react-native-google-signin": "^0.12.0",
     "react-native-maps": "*",
     "react-native-modal": "*",
     "react-native-modal-overlay": "*",

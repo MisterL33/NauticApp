@@ -55,6 +55,8 @@ export default class Session extends React.Component {
         var userList = []
         var recentPostsRef = firebase.database().ref('/users');
         var db = firebase.database();
+        console.log('modal')
+        console.log(this.state.user.id)
         marker.push(
             {
                 "latitudeMarker": this.props.markerInfo.latitudeMarker,
@@ -78,10 +80,10 @@ export default class Session extends React.Component {
 
                 var userFormated = user.val();
 
+                console.log(userFormated.facebookId)
+                if (userFormated.facebookId === this.props.user.id || userFormated.googleId === this.props.user.id) {
 
-                if (userFormated.facebookId === this.props.user.id) {
-
-
+                    console.log('trouver')
                     var newChild = user.ref.child('markers')
                     var markerFormated = {  // creation d'un marker pour l'user actuel
                         'dateCreationMarker': this.props.markerInfo.dateCreationMarker,
@@ -96,14 +98,18 @@ export default class Session extends React.Component {
                         'locality': this.props.locality
 
                     }
-
-                    newChild.push(({ marker: markerFormated }))
-
+                    try{
+                        newChild.push(({ marker: markerFormated }))
+                    } catch(error){
+                        console.log(error)
+                    }
+                    
+                    console.log(markerFormated)
                     this.props.handleUpdateMapMarkers()
                     this.props.handleZoomOnMarker(this.props.markerInfo.latitudeMarker, this.props.markerInfo.longitudeMarker)
 
                 } else {
-                    console.log('utilisateur non trouvé')
+                    console.log('utilisateur non trouvé lors de la création session ')
                 }
 
             })
@@ -126,6 +132,7 @@ export default class Session extends React.Component {
 
         return (
 
+           
             <Overlay visible={this.props.modalVisible}
                 closeOnTouchOutside animationType="zoomIn"
                 containerStyle={{ backgroundColor: 'rgba(37, 8, 10, 0.78)' }}
@@ -191,6 +198,7 @@ export default class Session extends React.Component {
 
                 </View>
             </Overlay>
+
         )
     }
 

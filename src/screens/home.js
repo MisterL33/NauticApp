@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Modal, Platform, StyleSheet, Dimensions, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
+import { AsyncStorage, Modal, Platform, StyleSheet, Dimensions, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
@@ -22,7 +22,7 @@ const {
 import * as firebase from "firebase";
 
 
-const {height: screenHeight, width: screenWidth} = Dimensions.get('window')
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window')
 
 
 export default class Home extends React.Component {
@@ -46,7 +46,7 @@ export default class Home extends React.Component {
       },
       markers: [{}],
       otherMarkers: [{}],
- 
+
 
     };
   }
@@ -55,14 +55,28 @@ export default class Home extends React.Component {
 
   componentWillMount = () => {
 
-   
-      AccessToken.getCurrentAccessToken().then((data) => {
+
+    AccessToken.getCurrentAccessToken().then((data) => {
+      if (data) {
         const { accessToken } = data
         this.RetrieveUserByActualToken(accessToken)
+      }
+    })
 
+    AsyncStorage.getItem('user')
+      .then((user) => {
+        if (user) {
+          
+          let obj = JSON.parse(user);
+          const userId = obj.id
+          console.log('retrieve Google', obj.id)
+          this.setState({ user: obj })
+          this.GetUserMarkers(userId)
+        }
       })
-    }
-  
+
+  }
+
 
 
 
@@ -79,34 +93,38 @@ export default class Home extends React.Component {
 
 
 
+
+
   GetUserMarkers = (userId) => {
-    
-  
+
+    console.log('getMarkers')
+    console.log(userId)
+
     var userList = []
     var markerList = []
     var recentPostsRef = firebase.database().ref('/users');
     recentPostsRef.once('value').then(snapshot => {
 
-      
+
       snapshot.forEach(user => {
         var userFormated = user.val();
-     
-        if (userFormated.facebookId === userId && userFormated.markers) 
-        {
-          
+        //console.log(userFormated)
+        if (userFormated.googleId === userId && userFormated.markers  || userFormated.facebookId === userId && userFormated.markers  ) {
+
           var markers = userFormated.markers
           Object.keys(markers).map((key) => {
             let marker = markers[key]
             markerList.push(marker)
           });
 
-          this.setState({ markers: markerList })
+          this.setState({ markers: markerList }, () =>{
+            //console.log(this.state.markers)
+          })
         }
 
-        
-        if(userFormated.facebookId !== userId && userFormated.markers)
-        {
-     
+
+        if (userFormated.googleId !== userId && userFormated.markers || userFormated.facebookId !== userId) {
+
           var otherMarkers = userFormated.markers
           Object.keys(otherMarkers).map((key) => {
             let marker = otherMarkers[key]
@@ -122,8 +140,7 @@ export default class Home extends React.Component {
   }
 
   // Fonctions permettant de set le state depuis un enfant
-  setModalVisible(visible) 
-  {
+  setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
@@ -137,43 +154,38 @@ export default class Home extends React.Component {
 
     const today = new Date()
     let day = today.getDate().toString()
-    let photoRef= null
+    let photoRef = null
     let placeObject = null
     let photoUrl = null
-  //  console.log(e.nativeEvent)
-            if(day.length !== 2){
-                day = '0' + day
-            }
-    
+    //  console.log(e.nativeEvent)
+    if (day.length !== 2) {
+      day = '0' + day
+    }
+
     var position = {
       lat: e.nativeEvent.coordinate.latitude,
       lng: e.nativeEvent.coordinate.longitude
     }
 
-
     Geocoder.geocodePosition(position).then(res => {
       res.map(geoObject => {
-     
         if (geoObject.locality !== null) {
           this.setState({ locality: geoObject.locality })
-         
-          
         }
       })
     })
       .catch(err => console.log(err))
 
-      const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
+    const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
     this.setState({
       markerInfo: { // mise en state d'un nouvel objet markerInfo pour qu'il soit passé en props dans le child session
         latitudeMarker: e.nativeEvent.coordinate.latitude,
         longitudeMarker: e.nativeEvent.coordinate.longitude,
         dateCreationMarker: currentDate,
-        
       }
     })
 
-this.setModalVisible(true)
+    this.setModalVisible(true)
 
   }
 
@@ -182,7 +194,7 @@ this.setModalVisible(true)
 
     this.setState({ latitude: latitude })
     this.setState({ longitude: longitude })
-    this.props.modalVisible(false)
+    this.setModalVisible(false)
   }
 
 
@@ -193,17 +205,23 @@ this.setModalVisible(true)
   }
 
   handleSetLatitude = (latitude) => {
-    this.setState({ latitude : latitude}, () =>{
+    this.setState({ latitude: latitude }, () => {
       console.log(this.state.latitude)
     });
-    
+
   }
 
   handleSetLongitude = (longitude) => {
-    this.setState({ longitude : longitude}, () =>{
+    this.setState({ longitude: longitude }, () => {
       console.log(this.state.longitude)
     });
-    
+
+  }
+
+  clearStorage = () => {
+
+    AsyncStorage.clear()
+   
   }
 
 
@@ -211,7 +229,7 @@ this.setModalVisible(true)
   // mettre les boutons search et classement sur le fichier map pour que la map soit le parent des boutons
 
   render() {
- 
+
 
 
     if (this.state.user !== undefined) {
@@ -221,16 +239,17 @@ this.setModalVisible(true)
     return (
       <View style={StyleSheet.absoluteFill}>
 
-        
+
         <View style={styles.container}>
 
 
-        {this.state.user !== undefined && this.state.markers &&
-          <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
-            mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
-            handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
-              />
-        }
+          {this.state.user !== undefined && this.state.markers &&
+            <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
+              mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
+              handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
+              clearStorage={this.clearStorage.bind(this)}
+            />
+          }
 
           {this.state.user !== undefined && this.state.markerInfo && this.state.locality
             ? <Session {...this.state} user={this.state.user} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}

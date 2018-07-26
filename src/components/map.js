@@ -81,9 +81,10 @@ export default class Map extends React.Component {
 
 
     render() {
-
+            
         if (this.state.currentDate) {
             console.log(this.state.currentDate)
+            console.log(this.props.user)
             return (
                 <View style={StyleSheet.absoluteFill}>
 
@@ -200,7 +201,7 @@ export default class Map extends React.Component {
                         </MapView>
 
 
-
+                             <Button title='Disconnect' onPress={this.props.clearStorage}>Disconnect</Button>
                     </View>
                 </View >
             )
