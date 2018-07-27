@@ -13,6 +13,8 @@ import Geocoder from 'react-native-geocoder';
 import Ranking from '../components/ranking';
 import Map from '../components/map';
 import styles from '../styles/home.style';
+
+import ResponsiveImage from 'react-native-responsive-image';
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
@@ -26,6 +28,8 @@ const { height: screenHeight, width: screenWidth } = Dimensions.get('window')
 
 
 export default class Home extends React.Component {
+
+
 
   constructor(props) {
     super(props);
@@ -41,6 +45,7 @@ export default class Home extends React.Component {
       hourSessionTo: '12:30',
       address: '',
       equipement: 'wind',
+      currentTitle: 'Carte des spots',
       user: {
 
       },
@@ -50,6 +55,7 @@ export default class Home extends React.Component {
 
     };
   }
+
 
 
 
@@ -66,7 +72,7 @@ export default class Home extends React.Component {
     AsyncStorage.getItem('user')
       .then((user) => {
         if (user) {
-          
+
           let obj = JSON.parse(user);
           const userId = obj.id
           console.log('retrieve Google', obj.id)
@@ -75,7 +81,13 @@ export default class Home extends React.Component {
         }
       })
 
+    console.log('iciiiiii')
+    console.log(this.props.navigation)
+
   }
+
+
+
 
 
 
@@ -109,7 +121,7 @@ export default class Home extends React.Component {
       snapshot.forEach(user => {
         var userFormated = user.val();
         //console.log(userFormated)
-        if (userFormated.googleId === userId && userFormated.markers  || userFormated.facebookId === userId && userFormated.markers  ) {
+        if (userFormated.googleId === userId && userFormated.markers || userFormated.facebookId === userId && userFormated.markers) {
 
           var markers = userFormated.markers
           Object.keys(markers).map((key) => {
@@ -117,7 +129,7 @@ export default class Home extends React.Component {
             markerList.push(marker)
           });
 
-          this.setState({ markers: markerList }, () =>{
+          this.setState({ markers: markerList }, () => {
             //console.log(this.state.markers)
           })
         }
@@ -144,7 +156,9 @@ export default class Home extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-
+  setCurrentDate(date) {
+    this.setState({ currentDate: date })
+  }
 
 
 
@@ -190,6 +204,8 @@ export default class Home extends React.Component {
   }
 
 
+
+
   handleZoomOnMarker = (latitude, longitude) => {
 
     this.setState({ latitude: latitude })
@@ -221,7 +237,7 @@ export default class Home extends React.Component {
   clearStorage = () => {
 
     AsyncStorage.clear()
-   
+
   }
 
 
@@ -247,7 +263,7 @@ export default class Home extends React.Component {
             <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
               mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
               handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
-              clearStorage={this.clearStorage.bind(this)}
+              clearStorage={this.clearStorage.bind(this)} nav={this.props.navigation} setCurrentDate={this.setCurrentDate.bind(this)}
             />
           }
 

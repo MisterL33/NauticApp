@@ -20,17 +20,15 @@ const RootStack = StackNavigator(
     },
     {   
         initialRouteName: 'Login',
-        //headerMode: 'none',
+        headerMode: 'none',
         navigationOptions: {
-          headerVisible: true,
-          title: 'Carte des spots',
+          headerVisible: false,
+          title: 'Nautix',
           headerStyle: {
             backgroundColor: '#66ccff',
           },
           headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          headerTitleStyle: { alignSelf: 'center' },
          
         }
         

@@ -9,7 +9,7 @@ import kitesurfIcon from '../pics/kitesurf.png'
 import myWindsurfIcon from '../pics/windsurfme.png';
 import myKitesurfIcon from '../pics/kitesurfme.png';
 import styles from '../styles/map.style';
-
+import { Header } from 'react-native-elements';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Hideo } from 'react-native-textinput-effects';
 
@@ -25,6 +25,7 @@ import * as firebase from "firebase";
 
 
 export default class Map extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -49,6 +50,9 @@ export default class Map extends React.Component {
 
         const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
         this.setState({ currentDate: currentDate })
+        const currentTitle = 'Carte des spots' + ' : ' + currentDate
+        this.props.nav.setParams({ title: currentTitle })
+        //   console.log(this.props)
 
     }
 
@@ -72,24 +76,37 @@ export default class Map extends React.Component {
 
     changeDate = (date) => {
         console.log(date)
+        const currentTitle = 'Carte des spots' + ' : ' + date
         this.setState({ currentDate: date, modalDateVisible: false })
-        
+        this.props.setCurrentDate(date)
+        this.props.handleUpdateMapMarkers()
+
+
     }
 
 
 
 
 
+
     render() {
-            
+
         if (this.state.currentDate) {
             console.log(this.state.currentDate)
-            console.log(this.props.user)
+            //console.log(this.props.user)
             return (
                 <View style={StyleSheet.absoluteFill}>
 
                     <View style={styles.container}>
+                    <View style={{ zIndex: 80 }}>
+                        <Header
+                            centerComponent={{ text: 'Carte des spots - ' + this.state.currentDate , style: { color: '#fff', fontWeight: 'bold' } }}
+                            
+                            outerContainerStyles={{ height: 45, borderBottomWidth: 0, borderBottomColor: 'lightgrey' }}
+                        />
+                        </View>
                         <View style={{ height: '10%', zIndex: 80, flexDirection: 'row' }}>
+
                             <View style={{ width: '80%', height: '100%' }}>
                                 <Hideo
                                     iconClass={FontAwesomeIcon}
@@ -109,17 +126,18 @@ export default class Map extends React.Component {
                             </View>
 
 
+
                         </View>
-                        {/* 
+
                         <View style={{ width: '20%', height: '100%', zIndex: 80, alignItems: 'center', marginLeft: '1%', }}>
-                            <TouchableOpacity style={styles.buttonDate} onPress={() => this.setState({modalDateVisible: true})}>
+                            <TouchableOpacity style={styles.buttonDate} onPress={() => this.setState({ modalDateVisible: true })}>
                                 <Text style={styles.dateChange}> Changer date </Text>
                             </TouchableOpacity>
                         </View>
-                        */}
 
 
-{/* 
+
+
 
                         <Overlay visible={this.state.modalDateVisible}
                             closeOnTouchOutside animationType="zoomIn"
@@ -127,7 +145,7 @@ export default class Map extends React.Component {
                             childrenWrapperStyle={{ backgroundColor: '#eee' }}
                             animationDuration={500}>
                             <Text style={styles.title}>Voir les sessions pour la date suivante : </Text>
-                            
+
                             <DatePicker
                                 style={{ width: 200 }}
                                 date={this.state.dateSessionMarker}
@@ -139,12 +157,14 @@ export default class Map extends React.Component {
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
                                 onDateChange={(date) => { this.changeDate(date) }}
-   
+
                             />
 
+                            <Button title="Annuler" onPress={() => this.setState({ modalDateVisible: false })}> Annuler </Button>
+                            <Button title='Disconnect' onPress={this.props.clearStorage}>Disconnect</Button>
                         </Overlay>
 
-*/}
+
                         <MapView
                             style={styles.map}
                             showsMyLocationButton={true}
@@ -201,7 +221,8 @@ export default class Map extends React.Component {
                         </MapView>
 
 
-                             <Button title='Disconnect' onPress={this.props.clearStorage}>Disconnect</Button>
+
+
                     </View>
                 </View >
             )

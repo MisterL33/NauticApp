@@ -56,7 +56,7 @@ export default class Session extends React.Component {
         var recentPostsRef = firebase.database().ref('/users');
         var db = firebase.database();
         console.log('modal')
-        console.log(this.state.user.id)
+        //console.log(this.state.user.id)
         marker.push(
             {
                 "latitudeMarker": this.props.markerInfo.latitudeMarker,
@@ -80,7 +80,7 @@ export default class Session extends React.Component {
 
                 var userFormated = user.val();
 
-                console.log(userFormated.facebookId)
+                //console.log(userFormated.facebookId)
                 if (userFormated.facebookId === this.props.user.id || userFormated.googleId === this.props.user.id) {
 
                     console.log('trouver')
@@ -104,7 +104,7 @@ export default class Session extends React.Component {
                         console.log(error)
                     }
                     
-                    console.log(markerFormated)
+                    //console.log(markerFormated)
                     this.props.handleUpdateMapMarkers()
                     this.props.handleZoomOnMarker(this.props.markerInfo.latitudeMarker, this.props.markerInfo.longitudeMarker)
 
