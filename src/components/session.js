@@ -36,7 +36,7 @@ export default class Session extends React.Component {
     }
 
     componentDidMount = () => {
-
+        this.setState({dateSessionMarker: new Date()})
     }
 
 
@@ -118,6 +118,10 @@ export default class Session extends React.Component {
         this.props.handleModalVisible(false)
 
 
+    }
+
+    handleDate = (date) => {
+        this.setState({ currentDate: date, dateSessionMarker: date })
     }
 
 

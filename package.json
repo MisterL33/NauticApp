@@ -33,16 +33,12 @@
     "react-navigation": "*"
   },
   "devDependencies": {
-    "@commitlint/cli": "*",
-    "@commitlint/config-conventional": "*",
-    "@commitlint/prompt": "*",
     "babel-jest": "*",
     "babel-preset-react-native": "*",
     "commitizen": "*",
     "husky": "*",
     "jest": "*",
-    "react-test-renderer": "*",
-    "standard-version": "*"
+    "react-test-renderer": "*"
   },
   "jest": {
     "preset": "react-native"
