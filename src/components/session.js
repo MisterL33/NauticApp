@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Platform, StyleSheet, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
+import {TouchableOpacity, Modal, Platform, StyleSheet, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
@@ -7,7 +7,7 @@ import styles from '../styles/session.style';
 
 const FBSDK = require('react-native-fbsdk');
 const {
-  LoginButton,
+    LoginButton,
     LoginManager,
     AccessToken
 } = FBSDK;
@@ -36,7 +36,16 @@ export default class Session extends React.Component {
     }
 
     componentDidMount = () => {
-        this.setState({dateSessionMarker: new Date()})
+        
+        const today = new Date()
+        let day = today.getDate().toString()
+
+        if (day.length !== 2) {
+            day = '0' + day
+        }
+
+        const currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + day;
+        this.setState({ dateSessionMarker: currentDate })
     }
 
 
@@ -50,12 +59,13 @@ export default class Session extends React.Component {
 
     modalConfirm = () => {
 
-       
+
         var marker = [...this.state.markers]
         var userList = []
         var recentPostsRef = firebase.database().ref('/users');
         var db = firebase.database();
         console.log('modal')
+        console.log(this.state.dateSessionMarker)
         //console.log(this.state.user.id)
         marker.push(
             {
@@ -75,7 +85,7 @@ export default class Session extends React.Component {
 
         recentPostsRef.once('value').then(snapshot => { // get references de /user
             userList = snapshot.val()
-           
+
             snapshot.forEach(user => { // boucle a travers les users en bases
 
                 var userFormated = user.val();
@@ -98,12 +108,12 @@ export default class Session extends React.Component {
                         'locality': this.props.locality
 
                     }
-                    try{
+                    try {
                         newChild.push(({ marker: markerFormated }))
-                    } catch(error){
+                    } catch (error) {
                         console.log(error)
                     }
-                    
+
                     //console.log(markerFormated)
                     this.props.handleUpdateMapMarkers()
                     this.props.handleZoomOnMarker(this.props.markerInfo.latitudeMarker, this.props.markerInfo.longitudeMarker)
@@ -136,11 +146,11 @@ export default class Session extends React.Component {
 
         return (
 
-           
+
             <Overlay visible={this.props.modalVisible}
                 closeOnTouchOutside animationType="zoomIn"
                 containerStyle={{ backgroundColor: 'rgba(37, 8, 10, 0.78)' }}
-                childrenWrapperStyle={{ backgroundColor: '#eee' }}
+                childrenWrapperStyle={{ backgroundColor: 'rgba(255,255,255, 1)' }}
                 animationDuration={500}>
                 <Text style={styles.title} >Créer une session ici ?</Text>
 
@@ -194,10 +204,16 @@ export default class Session extends React.Component {
                 />
                 <View style={styles.mainDivButton} >
                     <View style={styles.divConfirmButton}>
-                        <Button onPress={() => this.modalConfirm()} title='Ok' />
+                       
+                        <TouchableOpacity style={styles.button} onPress={() => this.modalConfirm()}>
+                            <Text style={styles.textCenter}   > Ok </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.divCancelButton}>
-                        <Button onPress={() => this.modalCancel()} title='Annuler' />
+                        
+                        <TouchableOpacity style={styles.button} onPress={() => this.modalCancel()}>
+                            <Text style={styles.textCenterCancel}> Annuler </Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>

@@ -27,7 +27,7 @@ export default class Google extends React.Component {
 
         GoogleSignin.configure({
 
-            webClientId: '384118391770-1g84f9rlc6o1jkgm2lpa21sjihtsdfdd.apps.googleusercontent.com', // only for iOS
+            webClientId: '232135406842-9d2r4dtjse1fg9n71tpbsohoa7hnscr9.apps.googleusercontent.com', // only for iOS
         }).then(() => {
             // you can now call currentUserAsync()
         });
@@ -39,7 +39,7 @@ export default class Google extends React.Component {
 
         this.setState({ user }, () => {
             this.getData(this.state.user)
-
+            console.log('state google')
         });
     }
 
@@ -114,6 +114,7 @@ export default class Google extends React.Component {
         try {
             this.initUser()
             this.setState({ logged: true })
+            console.log('herrre')
         } catch (error) {
             if (error.code === 'CANCELED') {
                 // user cancelled the login flow

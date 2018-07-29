@@ -6,7 +6,7 @@ import { StackNavigator, NavigationAction } from 'react-navigation';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import { Header } from 'react-native-elements';
 import ResponsiveImage from 'react-native-responsive-image';
-
+import { PermissionsAndroid } from 'react-native';
 const FBSDK = require('react-native-fbsdk');
 
 const {
@@ -28,6 +28,10 @@ export default class LoginPage extends React.Component {
       userGoogle: null
     }
 
+  }
+
+  componentWillMount = () =>{
+    this.requestPositionPermission()
   }
 
 
@@ -56,7 +60,28 @@ export default class LoginPage extends React.Component {
           this.props.navigation.navigate('Home', { title: 'Carte des spots' })
         }
       })
+      
+  }
 
+
+  requestPositionPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'Cool Photo App Camera Permission',
+          'message': 'Cool Photo App needs access to your camera ' +
+                     'so you can take awesome pictures.'
+        }
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('ok granted')
+      } else {
+        console.log("position permission denied")
+      }
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
 

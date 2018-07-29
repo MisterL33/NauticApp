@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "232135406842-9d2r4dtjse1fg9n71tpbsohoa7hnscr9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nauticapp",
+            "certificate_hash": "56146cde39b988a1726b84e6b42047a6818b6e0c"
+          }
+        },
+        {
           "client_id": "232135406842-nep5akqcapplnhp52po2me4a187rmlqq.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232135406842-nep5akqcapplnhp52po2me4a187rmlqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

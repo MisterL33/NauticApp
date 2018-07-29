@@ -8,6 +8,7 @@ export default StyleSheet.create({
     descriptionText: {
         width: '100%',
         marginBottom: '5%',
+        borderBottomWidth: 1
     },
     title:{
         fontWeight: 'bold',
@@ -23,5 +24,32 @@ export default StyleSheet.create({
     divCancelButton:{
         marginTop: '5%'
 
+    },
+    button: {
+
+        backgroundColor: '#66ccff',
+        height: 50,  
+        width: 100,
+    },
+    textCenter: {
+        color: 'white',
+        marginTop: '4%',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: '20%'
+    },
+    textCenter: {
+        color: 'white',
+        marginTop: '4%',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: '15%'
+    },
+    textCenterCancel: {
+        color: 'white',
+        marginTop: '4%',
+        width: '100%',
+        textAlign: 'center',
+        marginTop: '15%'
     },
   });

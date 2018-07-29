@@ -27,12 +27,17 @@ export default StyleSheet.create({
 
     },
     button: {
-
         backgroundColor: '#66ccff',
         height: 50,  
-        width: '100%',
+        width: 100,
+      
+    },
 
-        
+    buttonGo: {
+        backgroundColor: '#66ccff',
+        height: 48,  
+        width: 100,
+        marginRight: '200%'
     },
 
     buttonDate: {

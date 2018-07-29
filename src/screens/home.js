@@ -13,6 +13,7 @@ import Geocoder from 'react-native-geocoder';
 import Ranking from '../components/ranking';
 import Map from '../components/map';
 import styles from '../styles/home.style';
+import { PermissionsAndroid } from 'react-native';
 
 import ResponsiveImage from 'react-native-responsive-image';
 const FBSDK = require('react-native-fbsdk');
@@ -37,8 +38,8 @@ export default class Home extends React.Component {
 
     this.state = {
       modalVisible: false,
-      latitude: 44.837789,
-      longitude: -0.57918,
+      latitude: null,
+      longitude: null,
       longitudeMarker: null,
       latitudeMarker: null,
       hourSessionFrom: '08:30',
@@ -75,15 +76,18 @@ export default class Home extends React.Component {
 
           let obj = JSON.parse(user);
           const userId = obj.id
-          console.log('retrieve Google', obj.id)
+          //console.log('retrieve Google', obj.id)
           this.setState({ user: obj })
           this.GetUserMarkers(userId)
         }
       })
-
-    console.log('iciiiiii')
-    console.log(this.props.navigation)
-
+      
+      navigator.geolocation.getCurrentPosition((position) => {
+          
+        this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude})
+      
+      })
+      
   }
 
 
@@ -236,7 +240,8 @@ export default class Home extends React.Component {
 
   clearStorage = () => {
 
-    AsyncStorage.clear()
+    AsyncStorage.clear() // a retirer avant mise en prod
+    this.props.navigation.goBack()
 
   }
 

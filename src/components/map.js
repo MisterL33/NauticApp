@@ -11,7 +11,7 @@ import myKitesurfIcon from '../pics/kitesurfme.png';
 import styles from '../styles/map.style';
 import { Header } from 'react-native-elements';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { Hideo } from 'react-native-textinput-effects';
+import { Madoka, Hideo, Kaede } from 'react-native-textinput-effects';
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -98,29 +98,30 @@ export default class Map extends React.Component {
                 <View style={StyleSheet.absoluteFill}>
 
                     <View style={styles.container}>
-                    <View style={{ zIndex: 80 }}>
-                        <Header
-                            centerComponent={{ text: 'Carte des spots - ' + this.state.currentDate , style: { color: '#fff', fontWeight: 'bold' } }}
-                            
-                            outerContainerStyles={{ height: 45, borderBottomWidth: 0, borderBottomColor: 'lightgrey' }}
-                        />
+                        <View style={{ zIndex: 80 }}>
+                            <Header
+                                centerComponent={{ text: 'Carte des spots - ' + this.state.currentDate, style: { color: '#fff', fontWeight: 'bold' } }}
+
+                                outerContainerStyles={{ height: 45, borderBottomWidth: 0, borderBottomColor: 'lightgrey' }}
+                            />
                         </View>
                         <View style={{ height: '10%', zIndex: 80, flexDirection: 'row' }}>
 
-                            <View style={{ width: '80%', height: '100%' }}>
-                                <Hideo
-                                    iconClass={FontAwesomeIcon}
-                                    iconName={'search'}
-                                    iconColor={'white'}
-                                    // this is used as backgroundColor of icon container view.
-                                    iconBackgroundColor={'#66ccff'}
-                                    inputStyle={{ color: '#464949' }}
+                            <View style={{ width: '100%', height: '100%' }}>
+
+
+                                <Madoka
+                                    label={''}
+                                    // this is used as active and passive border color
+                                    borderColor={'#aee2c9'}
+                                    
+                                    labelStyle={{ color: '#008445' }}
+                                    inputStyle={{ color: '#464949', backgroundColor: 'white', borderBottomColor: 'none' }}
                                     onChangeText={(address) => this.setState({ address })} value={this.state.address}
-                                    style={{ zIndex: 10 }}
                                 />
                             </View>
                             <View style={{ width: '20%', height: '100%', alignItems: 'center' }}>
-                                <TouchableOpacity style={styles.button} onPress={this.handleConfirmSearch}>
+                                <TouchableOpacity style={styles.buttonGo} onPress={this.handleConfirmSearch}>
                                     <Text style={styles.Go}  > Go </Text>
                                 </TouchableOpacity>
                             </View>
@@ -147,7 +148,7 @@ export default class Map extends React.Component {
                             <Text style={styles.title}>Voir les sessions pour la date suivante : </Text>
 
                             <DatePicker
-                                style={{ width: 200 }}
+                                style={{ width: 200, marginTop: '5%' }}
                                 date={this.state.dateSessionMarker}
                                 mode="date"
                                 placeholder="select date"
@@ -159,16 +160,21 @@ export default class Map extends React.Component {
                                 onDateChange={(date) => { this.changeDate(date) }}
 
                             />
-
-                            <Button title="Annuler" onPress={() => this.setState({ modalDateVisible: false })}> Annuler </Button>
-                            <Button title='Disconnect' onPress={this.props.clearStorage}>Disconnect</Button>
+                            <View style={{ marginTop: '5%' }}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.setState({ modalDateVisible: false })}>
+                                    <Text style={styles.Go}> Annuler </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={this.props.clearStorage}>
+                                    <Text style={styles.Go}> Disconnect </Text>
+                                </TouchableOpacity>
+                            </View>
                         </Overlay>
 
 
                         <MapView
                             style={styles.map}
                             showsMyLocationButton={true}
-                            onPress={this.props.mapPress.bind(this)}
+                            onLongPress={this.props.mapPress.bind(this)}
                             region={{
                                 latitude: this.props.latitude,
                                 longitude: this.props.longitude,
