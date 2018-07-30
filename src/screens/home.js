@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { AsyncStorage, Modal, Platform, StyleSheet, Dimensions, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
+import { AsyncStorage, TouchableOpacity, Platform, StyleSheet, Dimensions, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
@@ -14,7 +14,7 @@ import Ranking from '../components/ranking';
 import Map from '../components/map';
 import styles from '../styles/home.style';
 import { PermissionsAndroid } from 'react-native';
-
+import Modal from "react-native-modal";
 import ResponsiveImage from 'react-native-responsive-image';
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -38,8 +38,9 @@ export default class Home extends React.Component {
 
     this.state = {
       modalVisible: false,
-      latitude: null,
-      longitude: null,
+      isModalVisible: this.props.navigation.state.params.modalOpen,
+      latitude: 44.8404400,
+      longitude: -0.5805000,
       longitudeMarker: null,
       latitudeMarker: null,
       hourSessionFrom: '08:30',
@@ -61,8 +62,8 @@ export default class Home extends React.Component {
 
 
   componentWillMount = () => {
-
-
+    console.log('here bro')
+    console.log(this.props.navigation)
     AccessToken.getCurrentAccessToken().then((data) => {
       if (data) {
         const { accessToken } = data
@@ -81,13 +82,13 @@ export default class Home extends React.Component {
           this.GetUserMarkers(userId)
         }
       })
-      
+    {/*
       navigator.geolocation.getCurrentPosition((position) => {
           
         this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude})
       
       })
-      
+       */}
   }
 
 
@@ -244,7 +245,9 @@ export default class Home extends React.Component {
     this.props.navigation.goBack()
 
   }
-
+  toggleModalWelcome = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  }
 
 
   // mettre les boutons search et classement sur le fichier map pour que la map soit le parent des boutons
@@ -260,30 +263,49 @@ export default class Home extends React.Component {
     return (
       <View style={StyleSheet.absoluteFill}>
 
+     
+        <TouchableOpacity onPress={this.toggleModalWelcome}>
+          <Text>Show Modal</Text>
+        </TouchableOpacity>
+        <Modal isVisible={this.state.isModalVisible}>
+          <View style={styles.modalContent}>
+            <Text>Bienvenue sur Nautix ! {"\n"} {"\n"}
+              Cette carte permet de prévoir des sessions sur vos spot favoris : pour créer une session il suffit d'appuyer longuement sur la zone de votre choix !{"\n"} {"\n"} 
 
-        <View style={styles.container}>
+              De base vous voyez les sessions des autres pratiquants pour la journée actuelle mais vous pouvez aussi changer la date pour voir le reste.{"\n"} {"\n"}
+
+              L'application vient d'être lancée et est encore en phase de test, si vous rencontrez un bug n'hesitez pas à le signaler.{"\n"} {"\n"}
+
+              Tips : vous voyez toutes vos sessions peu importe la date.{"\n"}{"\n"}
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={this.toggleModalWelcome}>
+              <Text style={styles.Ok} >Ok !</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+    
+       
+
+        {this.state.user !== undefined && this.state.markers &&
+          <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
+            mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
+            handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
+            clearStorage={this.clearStorage.bind(this)} nav={this.props.navigation} setCurrentDate={this.setCurrentDate.bind(this)}
+          />
+        }
+
+        {this.state.user !== undefined && this.state.markerInfo && this.state.locality
+          ? <Session {...this.state} user={this.state.user} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
+            markerInfo={this.state.markerInfo} locality={this.state.locality}
+            handleZoomOnMarker={this.handleZoomOnMarker.bind(this)}
+            handleModalVisible={this.setModalVisible.bind(this)}
+          />
+          : <Text></Text>
+        }
 
 
-          {this.state.user !== undefined && this.state.markers &&
-            <Map  {... this.state} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
-              mapPress={this.mapPress.bind(this)} handleModalVisible={this.setModalVisible.bind(this)}
-              handleSetLatitude={this.handleSetLatitude.bind(this)} handleSetLongitude={this.handleSetLongitude.bind(this)}
-              clearStorage={this.clearStorage.bind(this)} nav={this.props.navigation} setCurrentDate={this.setCurrentDate.bind(this)}
-            />
-          }
-
-          {this.state.user !== undefined && this.state.markerInfo && this.state.locality
-            ? <Session {...this.state} user={this.state.user} handleUpdateMapMarkers={this.handleUpdateMapMarkers.bind(this)}
-              markerInfo={this.state.markerInfo} locality={this.state.locality}
-              handleZoomOnMarker={this.handleZoomOnMarker.bind(this)}
-              handleModalVisible={this.setModalVisible.bind(this)}
-            />
-            : <Text></Text>
-          }
-
-
-        </View>
       </View>
+      
     );
   }
 }

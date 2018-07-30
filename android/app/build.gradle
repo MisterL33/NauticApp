@@ -99,11 +99,11 @@ android {
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "com.nauticapp"
+        applicationId "com.nautix"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 6
-        versionName '6.0'
+        versionCode 1
+        versionName '1.0'
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -133,6 +133,14 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('C:/Users/Laurent/.android/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
         }
     }
     productFlavors {

@@ -27,7 +27,7 @@ export default class Google extends React.Component {
 
         GoogleSignin.configure({
 
-            webClientId: '232135406842-9d2r4dtjse1fg9n71tpbsohoa7hnscr9.apps.googleusercontent.com', // only for iOS
+            webClientId: '', // only for iOS
         }).then(() => {
             // you can now call currentUserAsync()
         });
@@ -61,14 +61,14 @@ export default class Google extends React.Component {
                         exist = true
                         AsyncStorage.setItem('user', JSON.stringify(actualUser))
                         .then(() => {
-                            this.props.nav.navigate('Home')
+                            this.props.nav.navigate('Home', {modalOpen: false})
                         })
                     }
                 })
                 if (exist === false) {
                     this.postData() // si l'utilisateur n'existe pas en base, on appel la méthode d'insert     
                     console.log('utilisateur inséré')
-                    this.props.nav.navigate('Home', { user: actualUser })
+                    this.props.nav.navigate('Home', { user: actualUser, modalOpen: true })
                 }
             }
         })
@@ -78,6 +78,7 @@ export default class Google extends React.Component {
         var postData = {
             name: this.state.user.name,
             googleId: this.state.user.id,
+            modalOpened: false
         };
         var newPostKey = firebase.database().ref().child('users').push().key;
         var updates = {};

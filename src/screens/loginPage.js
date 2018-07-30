@@ -31,7 +31,7 @@ export default class LoginPage extends React.Component {
   }
 
   componentWillMount = () =>{
-    this.requestPositionPermission()
+   {/* this.requestPositionPermission() */}
   }
 
 

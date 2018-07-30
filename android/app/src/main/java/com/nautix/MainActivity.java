@@ -1,10 +1,6 @@
-package com.nauticapp;
+package com.nautix;
 import android.content.Intent; 
 import com.facebook.react.ReactActivity;
-import android.os.Bundle;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.facebook.CallbackManager;
-
 
 
 public class MainActivity extends ReactActivity {

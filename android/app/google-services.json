@@ -15,11 +15,55 @@
       },
       "oauth_client": [
         {
-          "client_id": "232135406842-9d2r4dtjse1fg9n71tpbsohoa7hnscr9.apps.googleusercontent.com",
+          "client_id": "232135406842-4v1kt18gll7t0uovcfj5bpd64te4810q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nauticapp",
-            "certificate_hash": "56146cde39b988a1726b84e6b42047a6818b6e0c"
+            "certificate_hash": "551e9b0c94a99458b22d4be52f76ac8077799b50"
+          }
+        },
+        {
+          "client_id": "232135406842-nep5akqcapplnhp52po2me4a187rmlqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYNT4YYecIPyL6Zcp3nfLE4tNoQji_2d4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232135406842-nep5akqcapplnhp52po2me4a187rmlqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232135406842:android:647ac6d596c58923",
+        "android_client_info": {
+          "package_name": "com.nautix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232135406842-pn8pt5vt5rmj8lcngsss1msujb5f0va2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nautix",
+            "certificate_hash": "4eabfe1876189c73781d25aeaabdf6ca2929f74d"
           }
         },
         {

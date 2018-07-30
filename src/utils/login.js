@@ -55,13 +55,13 @@ export default class Login extends React.Component {
                     if (userFormated.facebookId === actualUser.id) {
                         console.log('utilisateur trouvé')
                         exist = true
-                        this.props.nav.navigate('Home', { user: actualUser })
+                        this.props.nav.navigate('Home', { user: actualUser, modalOpen: false})
                     }
                 })
                 if (exist === false) {
                     this.postData() // si l'utilisateur n'existe pas en base, on appel la méthode d'insert     
                     console.log('utilisateur inséré')
-                    this.props.nav.navigate('Home', { user: actualUser })
+                    this.props.nav.navigate('Home', { user: actualUser, modalOpen: true })
                 }
             }
         })
@@ -71,6 +71,7 @@ export default class Login extends React.Component {
         var postData = {
             name: this.state.user.name,
             facebookId: this.state.user.id,
+            modalOpened: false
         };
         var newPostKey = firebase.database().ref().child('users').push().key;
         var updates = {};

@@ -1,5 +1,4 @@
-package com.nauticapp;
-import android.content.Intent; 
+package com.nautix;
 import android.app.Application;
 import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
@@ -7,7 +6,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -17,7 +15,6 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.devfd.RNGeocoder.RNGeocoderPackage;
 import java.util.Arrays;
 import java.util.List;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;  // <--- import
 
 public class MainApplication extends Application implements ReactApplication {
 

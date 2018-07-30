@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Modal, Platform, StyleSheet, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
+import { TouchableOpacity, Platform, StyleSheet, Text, View, Button, TouchableHighlight, TextInput, Picker } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Overlay from 'react-native-modal-overlay';
 import DatePicker from 'react-native-datepicker';
@@ -36,7 +36,9 @@ export default class Session extends React.Component {
     }
 
     componentDidMount = () => {
-        
+
+
+
         const today = new Date()
         let day = today.getDate().toString()
 
@@ -54,6 +56,7 @@ export default class Session extends React.Component {
         this.props.handleModalVisible(false)
 
     }
+
 
 
 
@@ -204,20 +207,23 @@ export default class Session extends React.Component {
                 />
                 <View style={styles.mainDivButton} >
                     <View style={styles.divConfirmButton}>
-                       
+
                         <TouchableOpacity style={styles.button} onPress={() => this.modalConfirm()}>
                             <Text style={styles.textCenter}   > Ok </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.divCancelButton}>
-                        
+
                         <TouchableOpacity style={styles.button} onPress={() => this.modalCancel()}>
                             <Text style={styles.textCenterCancel}> Annuler </Text>
                         </TouchableOpacity>
                     </View>
 
                 </View>
+
+
             </Overlay>
+
 
         )
     }
