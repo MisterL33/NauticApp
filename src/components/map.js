@@ -57,11 +57,10 @@ export default class Map extends React.Component {
     }
 
     handleConfirmSearch = () => {
-        console.log('confirm')
-        console.log(this.state.address)
+
         fetch('https://maps.google.com/maps/api/geocode/json?address=' + this.state.address + '&key=AIzaSyBETNe1QHYEoXhx3-lhQWICKWm97syaOcA').then(
             (res) => this.setState({ object: JSON.parse(res._bodyText) }, () => {
-                console.log(res);
+                // console.log(res);
                 var object = this.state.object.results
                 var results = []
                 object.map((result) => results.push(result))   // ici on met toutes les locations trouvées, ce serait bien de les afficher pour choisir
@@ -75,7 +74,7 @@ export default class Map extends React.Component {
     }
 
     changeDate = (date) => {
-        console.log(date)
+
         const currentTitle = 'Carte des spots' + ' : ' + date
         this.setState({ currentDate: date, modalDateVisible: false })
         this.props.setCurrentDate(date)
@@ -92,7 +91,7 @@ export default class Map extends React.Component {
     render() {
 
         if (this.state.currentDate) {
-            console.log(this.state.currentDate)
+            // console.log(this.state.currentDate)
             //console.log(this.props.user)
             return (
                 <View style={StyleSheet.absoluteFill}>
@@ -114,9 +113,9 @@ export default class Map extends React.Component {
                                     label={''}
                                     // this is used as active and passive border color
                                     borderColor={'#aee2c9'}
-                                    
+
                                     labelStyle={{ color: '#008445' }}
-                                    inputStyle={{ color: '#464949', backgroundColor: 'white', borderBottomColor: 'none' }}
+                                    inputStyle={{ color: '#464949', backgroundColor: 'white' }}
                                     onChangeText={(address) => this.setState({ address })} value={this.state.address}
                                 />
                             </View>
@@ -135,6 +134,12 @@ export default class Map extends React.Component {
                                 <Text style={styles.dateChange}> Changer date </Text>
                             </TouchableOpacity>
                         </View>
+
+
+
+                        <Text style={styles.tips}> Appuyez longuement pour créer une session </Text>
+
+
 
 
 
@@ -164,9 +169,9 @@ export default class Map extends React.Component {
                                 <TouchableOpacity style={styles.button} onPress={() => this.setState({ modalDateVisible: false })}>
                                     <Text style={styles.Go}> Annuler </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={this.props.clearStorage}>
+                                {/*  <TouchableOpacity style={styles.button} onPress={this.props.clearStorage}>
                                     <Text style={styles.Go}> Disconnect </Text>
-                                </TouchableOpacity>
+            </TouchableOpacity>  */}
                             </View>
                         </Overlay>
 
@@ -213,7 +218,7 @@ export default class Map extends React.Component {
                                         title={marker.marker.titleMarker}
                                         description={'De ' + marker.marker.hourSessionFrom + ' à ' + marker.marker.hourSessionTo}
                                         key={i} />
-                                    : marker.marker !== undefined && marker.marker.equipement === 'kite' && marker.marker.userId !== this.props.user.id &&
+                                    : marker.marker !== undefined && marker.marker.equipement === 'kite' && marker.marker.userId !== this.props.user.id && marker.marker.dateSessionMarker === this.state.currentDate &&
                                     <MapView.Marker
                                         image={kitesurfIcon}
                                         coordinate={{ latitude: marker.marker.latitudeMarker, longitude: marker.marker.longitudeMarker }}

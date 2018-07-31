@@ -39,7 +39,7 @@ export default class Google extends React.Component {
 
         this.setState({ user }, () => {
             this.getData(this.state.user)
-            console.log('state google')
+           // console.log('state google')
         });
     }
 
@@ -57,7 +57,7 @@ export default class Google extends React.Component {
                     var userFormated = user.val();
 
                     if (userFormated.googleId === actualUser.id) {
-                        console.log('utilisateur trouvé')
+                       // console.log('utilisateur trouvé')
                         exist = true
                         AsyncStorage.setItem('user', JSON.stringify(actualUser))
                         .then(() => {
@@ -67,7 +67,7 @@ export default class Google extends React.Component {
                 })
                 if (exist === false) {
                     this.postData() // si l'utilisateur n'existe pas en base, on appel la méthode d'insert     
-                    console.log('utilisateur inséré')
+                   // console.log('utilisateur inséré')
                     this.props.nav.navigate('Home', { user: actualUser, modalOpen: true })
                 }
             }
@@ -91,7 +91,7 @@ export default class Google extends React.Component {
     storeData = async () => {
         try {
             await AsyncStorage.setItem('user', 'lol');
-            console.log('ok')
+            //console.log('ok')
         } catch (error) {
             console.log(error)
         }
@@ -103,7 +103,7 @@ export default class Google extends React.Component {
             const value = await AsyncStorage.getItem('user');
             if (value !== null) {
                 // We have data!!
-                console.log(value)
+               // console.log(value)
             }
         } catch (error) {
             // Error retrieving data
@@ -115,7 +115,7 @@ export default class Google extends React.Component {
         try {
             this.initUser()
             this.setState({ logged: true })
-            console.log('herrre')
+           // console.log('herrre')
         } catch (error) {
             if (error.code === 'CANCELED') {
                 // user cancelled the login flow

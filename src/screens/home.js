@@ -39,8 +39,8 @@ export default class Home extends React.Component {
     this.state = {
       modalVisible: false,
       isModalVisible: this.props.navigation.state.params.modalOpen,
-      latitude: 44.8404400,
-      longitude: -0.5805000,
+      latitude: 44.05500,
+      longitude: -0.560000,
       longitudeMarker: null,
       latitudeMarker: null,
       hourSessionFrom: '08:30',
@@ -63,7 +63,7 @@ export default class Home extends React.Component {
 
   componentWillMount = () => {
     console.log('here bro')
-    console.log(this.props.navigation)
+
     AccessToken.getCurrentAccessToken().then((data) => {
       if (data) {
         const { accessToken } = data
@@ -82,13 +82,13 @@ export default class Home extends React.Component {
           this.GetUserMarkers(userId)
         }
       })
-    {/*
+    
       navigator.geolocation.getCurrentPosition((position) => {
           
         this.setState({latitude: position.coords.latitude, longitude: position.coords.longitude})
       
       })
-       */}
+       
   }
 
 
@@ -102,7 +102,7 @@ export default class Home extends React.Component {
     const response = await fetch('https://graph.facebook.com/v2.5/me?fields=email,name&access_token=' + token)
     const user = await response.json()
     const userId = user.id
-    console.log('retrieve', userId)
+    //console.log('retrieve', userId)
     this.setState({ user })
     this.GetUserMarkers(userId)
   }
@@ -114,8 +114,8 @@ export default class Home extends React.Component {
 
   GetUserMarkers = (userId) => {
 
-    console.log('getMarkers')
-    console.log(userId)
+   // console.log('getMarkers')
+    //console.log(userId)
 
     var userList = []
     var markerList = []
@@ -125,7 +125,7 @@ export default class Home extends React.Component {
 
       snapshot.forEach(user => {
         var userFormated = user.val();
-        //console.log(userFormated)
+      //  console.log(userFormated)
         if (userFormated.googleId === userId && userFormated.markers || userFormated.facebookId === userId && userFormated.markers) {
 
           var markers = userFormated.markers
@@ -140,7 +140,7 @@ export default class Home extends React.Component {
         }
 
 
-        if (userFormated.googleId !== userId && userFormated.markers || userFormated.facebookId !== userId) {
+        if (userFormated.googleId !== userId && userFormated.markers || userFormated.facebookId !== userId && userFormated.markers) {
 
           var otherMarkers = userFormated.markers
           Object.keys(otherMarkers).map((key) => {
@@ -227,14 +227,14 @@ export default class Home extends React.Component {
 
   handleSetLatitude = (latitude) => {
     this.setState({ latitude: latitude }, () => {
-      console.log(this.state.latitude)
+      //console.log(this.state.latitude)
     });
 
   }
 
   handleSetLongitude = (longitude) => {
     this.setState({ longitude: longitude }, () => {
-      console.log(this.state.longitude)
+     // console.log(this.state.longitude)
     });
 
   }
@@ -263,10 +263,7 @@ export default class Home extends React.Component {
     return (
       <View style={StyleSheet.absoluteFill}>
 
-     
-        <TouchableOpacity onPress={this.toggleModalWelcome}>
-          <Text>Show Modal</Text>
-        </TouchableOpacity>
+
         <Modal isVisible={this.state.isModalVisible}>
           <View style={styles.modalContent}>
             <Text>Bienvenue sur Nautix ! {"\n"} {"\n"}

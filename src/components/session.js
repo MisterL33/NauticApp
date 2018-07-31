@@ -67,8 +67,8 @@ export default class Session extends React.Component {
         var userList = []
         var recentPostsRef = firebase.database().ref('/users');
         var db = firebase.database();
-        console.log('modal')
-        console.log(this.state.dateSessionMarker)
+       // console.log('modal')
+       // console.log(this.state.dateSessionMarker)
         //console.log(this.state.user.id)
         marker.push(
             {
@@ -96,7 +96,7 @@ export default class Session extends React.Component {
                 //console.log(userFormated.facebookId)
                 if (userFormated.facebookId === this.props.user.id || userFormated.googleId === this.props.user.id) {
 
-                    console.log('trouver')
+                 //   console.log('trouver')
                     var newChild = user.ref.child('markers')
                     var markerFormated = {  // creation d'un marker pour l'user actuel
                         'dateCreationMarker': this.props.markerInfo.dateCreationMarker,

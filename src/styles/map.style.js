@@ -1,7 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native'
 
 
-
+const height = Dimensions.get('window').height
+const width = Dimensions.get('window').width
 
 export default StyleSheet.create({
     container: {
@@ -82,10 +83,18 @@ export default StyleSheet.create({
     },
     dateChange: {
         color: 'white',
-        marginTop: '4%',
-        width: '100%',
         textAlign: 'center',
-        marginTop: '10%',
+        marginTop: '14%',
+        
+    },
+
+    tips: {
+        color: 'green',
+        zIndex: 1000,
+        left: '15%',
+        position: 'absolute',
+        top: height - 80,
+        width: width
         
     },
 
